@@ -1,25 +1,32 @@
 <template>
   <div id="app">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.css">
     <div id="calendar-wrap">
       <iMarker
         ref="calendar"
-        :weekText="props.weekText.selected"
-        :sundayBegin="props.sundayBegin"
-        :format="props.format.selected"
-        :markers="props.markers"
-        :disabledFutureDay="props.disabledFutureDay"
-        :hideOtherMonthDay="props.hideOtherMonthDay"
-        :hideOtherMonthMarker="props.hideOtherMonthMarker"
+        :weekText="theData.weekText.selected"
+        :sundayBegin="theData.sundayBegin"
+        :format="theData.format.selected"
+        :markers="theData.markers"
+        :disabledFutureDay="theData.disabledFutureDay"
+        :hideOtherMonthDay="theData.hideOtherMonthDay"
+        :hideOtherMonthMarker="theData.hideOtherMonthMarker"
         @month="handleDateChange($event)"
         @day="handleDateChange($event)"
       ></iMarker>
-      <inputForm></inputForm>
+      <inputForm
+        :date="currentDate"
+        :event="event"
+        :parentData="theData.markers"
+        @interface="handleFcAfterDateBack"
+      ></inputForm>
     </div>
-    <div class="copyright">Copyright © 2019 Allen AuYeung</div>
   </div>
 </template>
 
 <script>
+import Vue from 'vue';
+import SuiVue from 'semantic-ui-vue';
 import iMarker from "./components/iMarker.vue";
 import inputForm from "./components/inputForm.vue";
 
@@ -34,7 +41,7 @@ export default {
   },
   data() {
     return {
-      props: {
+      theData: {
         disabledFutureDay: false,
         hideOtherMonthDay: false,
         hideOtherMonthMarker: false,
@@ -58,50 +65,75 @@ export default {
           ]
         },
         markers: [
-          {
-            date: `${year}-${month}-09`,
-            className: "meeting"
-          },
-          {
-            date: `${year}-${month}-20`,
-            className: "casual"
-          },
-          {
-            date: `${year}-${month}-30`,
-            className: "love"
-          },
-          {
-            date: `${year}-${month + 1}-01`,
-            className: "urgent"
-          }
+          { }
         ]
       },
       currentDate: "",
-      targetDate: ""
+      targetDate: "",
+      event: {
+        subject: '',
+        location: '',
+        markedAs: '',
+        description: ''
+      }
     };
   },
   watch: {
     currentDate(newVal, oldVal) {
       this.targetDate = oldVal;
     },
-    "props.format.selected"() {
+    "theData.format.selected"() {
       this.$refs.calendar.chooseTargetDate(this.currentDate);
     },
-    "props.weekText.lang"(val) {
+    "theData.weekText.lang"(val) {
       this.setWeekText(val);
     }
   },
   created() {
     this.setWeekText();
+    this.getMarkers();
+  },
+  updated() {
+    this.getMarkers();
+    console.log(this.theData.markers, "updated"); 
   },
   methods: {
+    handleFcAfterDateBack (event) {
+      console.log('data after child handle: ', event) // get the data after child dealing
+    },
+    getMarkers(){
+      const local = localStorage;
+      var i = 0;
+      for (var key in local) {
+        if (key.match("[0-9]+")) {
+          if (this.theData.markers.length <= 1){     
+            var event = JSON.parse(localStorage.getItem(key));
+            this.theData.markers[i]= {
+              date: key, className: event.markedAs
+            }
+            i++;
+          }
+        }
+      }
+    },
     handleDateChange(date) {
       this.currentDate = date;
+      var event = JSON.parse(localStorage.getItem(this.currentDate));
+      if (event !== null){
+        this.event = event;
+      } else {
+        this.event = {
+          subject: '',
+          location: '',
+          markedAs: '',
+          description: ''
+        }
+      }
     },
     setWeekText(lang = "EN") {
-      this.props.weekText.options.filter(item => {
+      this.theData.weekText.options.filter(item => {
         if (item.lang === lang) {
-          this.props.weekText.selected = item.value;
+          this.theData.weekText.selected = item.value;
         }
       });
     },
@@ -119,6 +151,7 @@ export default {
     }
   }
 };
+Vue.use(SuiVue);
 </script>
 
 <style>

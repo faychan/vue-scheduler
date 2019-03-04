@@ -13,8 +13,10 @@
   "dependencies": {
     "imarker": "^1.0.0",
     "nodemon": "^1.18.9",
+    "semantic-ui-css": "^2.4.1",
     "semantic-ui-vue": "^0.7.0",
-    "vue": "^2.5.17"
+    "vue": "^2.5.17",
+    "vue-localstorage": "^0.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.1",

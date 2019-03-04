@@ -78,7 +78,19 @@ export default {
   watch: {
     "currentDateObj.month"() {
       this.initCalendar();
-    }
+    },
+  },
+  updated() {
+    //kondisi the markers
+    setInterval(() => {
+      this.initCalendar();
+      this.currentDateObj.date = util.splicingDate(
+      this.currentDateObj,
+      this.format
+    );
+    this.$emit("day", this.currentDateObj.date);
+      console.log(this.markers, "olol"); 
+    }, 5000)
   },
   created() {
     this.initCalendar();
@@ -197,7 +209,6 @@ export default {
 
       this.currentDateObj.day = item.day;
       this.currentDateObj.date = item.date;
-      alert('Hello ' + item.date);
       this.$emit("day", util.splicingDate(this.currentDateObj, this.format));
 
       item.isOtherMonthDay &&
@@ -234,6 +245,7 @@ export default {
         const markers = this.markers;
 
         if (markers && (!isOtherMonths || !this.hideOtherMonthMarker)) {
+          // console.log("called it!", markers);
           markers.map(item => {
             if (
               util.getTimestamp(dayObj.date) === util.getTimestamp(item.date)

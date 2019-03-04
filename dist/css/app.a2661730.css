@@ -132,9 +132,3 @@ li[data-v-8d091fd4] {
 #calendar-wrap /deep/ .weekend-day span {
   color: #536dfe;
 }
-.copyright {
-  padding: 30px 0;
-  text-align: center;
-  color: #ccc;
-  font-size: 12px;
-}
