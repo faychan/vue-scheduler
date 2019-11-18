@@ -30,6 +30,7 @@ import SuiVue from 'semantic-ui-vue';
 import iMarker from "./components/iMarker.vue";
 import inputForm from "./components/inputForm.vue";
 
+
 const date = new Date();
 const year = date.getFullYear();
 const month = date.getMonth() + 1;
@@ -58,15 +59,9 @@ export default {
               lang: "EN",
               value: ["M", "T", "W", "T", "F", "S", "S"]
             },
-            {
-              lang: "ZH",
-              value: ["一", "二", "三", "四", "五", "六", "日"]
-            }
           ]
         },
-        markers: [
-          { }
-        ]
+        markers: []
       },
       currentDate: "",
       targetDate: "",
@@ -93,28 +88,22 @@ export default {
     this.setWeekText();
     this.getMarkers();
   },
-  updated() {
-    this.getMarkers();
-    console.log(this.theData.markers, "updated"); 
-  },
   methods: {
-    handleFcAfterDateBack (event) {
-      console.log('data after child handle: ', event) // get the data after child dealing
-    },
     getMarkers(){
       const local = localStorage;
       var i = 0;
       for (var key in local) {
         if (key.match("[0-9]+")) {
-          if (this.theData.markers.length <= 1){     
-            var event = JSON.parse(localStorage.getItem(key));
-            this.theData.markers[i]= {
-              date: key, className: event.markedAs
-            }
-            i++;
+          var event = JSON.parse(localStorage.getItem(key));
+          this.theData.markers[i]= {
+            date: key, className: event.markedAs
           }
+          i++;
         }
       }
+    },
+    handleFcAfterDateBack (event) {
+      this.theData.markers.push(event)
     },
     handleDateChange(date) {
       this.currentDate = date;
@@ -137,15 +126,15 @@ export default {
         }
       });
     },
-    // handleDateChange(date) {
-    //   this.currentDate = date;
-    // },
-    // switchToPrevMonth() {
-    //   this.$refs.calendar.switchToPrevMonth();
-    // },
-    // switchToNextMonth() {
-    //   this.$refs.calendar.switchToNextMonth();
-    // },
+    handleDateChange(date) {
+      this.currentDate = date;
+    },
+    switchToPrevMonth() {
+      this.$refs.calendar.switchToPrevMonth();
+    },
+    switchToNextMonth() {
+      this.$refs.calendar.switchToNextMonth();
+    },
     chooseTargetDate() {
       this.$refs.calendar.chooseTargetDate(this.targetDate);
     }
@@ -158,7 +147,7 @@ Vue.use(SuiVue);
 #calendar-wrap {
   padding-bottom: 30px;
   color: #2c3e50;
-  background-color: #232323;
+  background-color: #ffad87;
   height: 100vh;
   width: 100vw;
 }
@@ -168,22 +157,22 @@ Vue.use(SuiVue);
   margin: auto;
 }
 /* marker style*/
-#calendar-wrap/deep/ .casual span {
-  color: #fff;
+#calendar-wrap .casual span {
+  color: #fff !important;
   background-color: #7b1fa2;
 }
-#calendar-wrap /deep/ .love span {
-  color: #fff;
+#calendar-wrap .love span {
+  color: #fff !important;
   background-color: #ff4081;
 }
 
-#calendar-wrap /deep/ .meeting span {
-  color: #fff;
+#calendar-wrap .meeting span {
+  color: #fff !important;
   background-color: #448aff;
 }
 
-#calendar-wrap /deep/ .urgent span {
-  color: #fff;
+#calendar-wrap .urgent span {
+  color: #fff !important;
   background-color: #FF0000;
 }
 

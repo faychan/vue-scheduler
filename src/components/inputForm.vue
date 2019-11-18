@@ -70,7 +70,6 @@ export default {
 
   beforeMount () {
     this.childData = this.parentData // save props data to itself's data and deal with it
-    console.log(this.childData,"awuu")
   },
 
   methods: {
@@ -81,13 +80,12 @@ export default {
         description: this.event.description,
         markedAs: this.event.markedAs
       };
+      this.date = this.date.replace(/-0+/g, '-');
       localStorage.setItem(this.date, JSON.stringify(event));
-      var i = this.childData.length;
-      this.childData[i]= {
+      event = {
         date: this.date, className: event.markedAs
       }
-      this.$emit('interface', this.childData) // handle data and give it back to parent by interface
-      console.log(this.childData,"aloo")
+      this.$emit('interface', event) // handle data and give it back to parent by interface
     }
   }
 };

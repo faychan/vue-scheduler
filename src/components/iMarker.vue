@@ -16,9 +16,9 @@
         <li
           v-for="(item,index) in days"
           :key="index"
-          @click="handleDayChoose(item,index)"
+          @click="()=>handleDayChoose(item)"
           :class="[dayClasses(item),item.className]"
-        >
+          >
           <span>{{item.day}}</span>
         </li>
       </ul>
@@ -89,7 +89,6 @@ export default {
       this.format
     );
     this.$emit("day", this.currentDateObj.date);
-      console.log(this.markers, "olol"); 
     }, 5000)
   },
   created() {
@@ -319,7 +318,7 @@ li {
   align-items: center;
   height: 40px;
   padding: 0 20px;
-  background-color: #232323;
+  background-color: #bd574e;
 }
 
 .month-switch .prev,
@@ -379,7 +378,7 @@ li {
 
 #calendar .choose-day span {
   color: #fff;
-  background-color: #232323;
+  background-color: #bd574e;
 }
 
 #calendar .other-month-day span {
@@ -399,5 +398,6 @@ li {
 #calendar .other-month-day.other-month-marker--hide span {
   background-color: transparent !important;
 }
+
 </style>
 
