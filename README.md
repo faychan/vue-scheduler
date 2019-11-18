@@ -5,20 +5,8 @@ npm install imarker
 // or
 yarn add imarker
 ```
-# Usage
-```html
-<template>
-    <iMarker></iMarker>
-</template>
-
-<script>
-import iMarker from 'imarker'
-    export default {
-        components:{
-          iMarker
-        }
-    }
-</script>
+# Pictures
+![Display Scheduler](https://github.com/faychan/vue-scheduler/blob/master/Screenshot_20191118_180238.png)
 ```
 # API
 * [Documentation]
@@ -27,4 +15,3 @@ import iMarker from 'imarker'
 MIT
 
 [Documentation]:http://www.toyou.xyz/iMarker/
-
