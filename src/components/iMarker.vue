@@ -16,7 +16,7 @@
         <li
           v-for="(item,index) in days"
           :key="index"
-          @click="()=>handleDayChoose(item)"
+          @click="handleDayChoose(item)"
           :class="[dayClasses(item),item.className]"
           >
           <span>{{item.day}}</span>
@@ -208,12 +208,13 @@ export default {
 
       this.currentDateObj.day = item.day;
       this.currentDateObj.date = item.date;
-      this.$emit("day", util.splicingDate(this.currentDateObj, this.format));
 
       item.isOtherMonthDay &&
         (item.day > 7
           ? this.handleMonthSwitch("prev")
           : this.handleMonthSwitch("next"));
+      var itemDate = util.splicingDate(this.currentDateObj, this.format);
+      this.$emit("day", itemDate);
     },
 
     /**

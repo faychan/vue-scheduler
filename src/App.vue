@@ -11,8 +11,8 @@
         :disabledFutureDay="theData.disabledFutureDay"
         :hideOtherMonthDay="theData.hideOtherMonthDay"
         :hideOtherMonthMarker="theData.hideOtherMonthMarker"
-        @month="handleDateChange($event)"
-        @day="handleDateChange($event)"
+        @month="handleDateChange"
+        @day="handleDateChange"
       ></iMarker>
       <inputForm
         :date="currentDate"
@@ -125,9 +125,6 @@ export default {
           this.theData.weekText.selected = item.value;
         }
       });
-    },
-    handleDateChange(date) {
-      this.currentDate = date;
     },
     switchToPrevMonth() {
       this.$refs.calendar.switchToPrevMonth();

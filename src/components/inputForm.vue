@@ -82,10 +82,10 @@ export default {
       };
       this.date = this.date.replace(/-0+/g, '-');
       localStorage.setItem(this.date, JSON.stringify(event));
-      event = {
+      var labelling = {
         date: this.date, className: event.markedAs
       }
-      this.$emit('interface', event) // handle data and give it back to parent by interface
+      this.$emit('interface', labelling) // handle data and give it back to parent by interface
     }
   }
 };
